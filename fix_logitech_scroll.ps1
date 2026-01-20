@@ -18,8 +18,35 @@ if (Test-Path $mousePath) {
     Set-ItemProperty -Path $mousePath -Name "MouseSpeed" -Value "0" -ErrorAction SilentlyContinue
     Set-ItemProperty -Path $mousePath -Name "MouseThreshold1" -Value "0" -ErrorAction SilentlyContinue
     Set-ItemProperty -Path $mousePath -Name "MouseThreshold2" -Value "0" -ErrorAction SilentlyContinue
-    Set-ItemProperty -Path $mousePath -Name "WheelScrollLines" -Value 1 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $mousePath -Name "WheelScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $mousePath -Name "WheelScrollChars" -Value 0 -Type DWord -ErrorAction SilentlyContinue
 } else {
     New-Item -Path $mousePath -Force | Out-Null
-    Set-ItemProperty -Path $mousePath -Name "WheelScrollLines" -Value 1 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $mousePath -Name "WheelScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $mousePath -Name "WheelScrollChars" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+}
+$desktopPath = "HKCU:\Control Panel\Desktop"
+if (Test-Path $desktopPath) {
+    Set-ItemProperty -Path $desktopPath -Name "WheelScrollLines" -Value "0" -Type String -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $desktopPath -Name "SmoothScroll" -Value "0" -Type String -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $desktopPath -Name "WheelScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+}
+$regPath = "HKCU:\Software\Logitech\Gaming Software\Global Settings"
+if (Test-Path $regPath) {
+    Set-ItemProperty -Path $regPath -Name "WheelScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $regPath -Name "ScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $regPath -Name "ScrollPixels" -Value 2 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $regPath -Name "WheelScrollPixels" -Value 2 -Type DWord -ErrorAction SilentlyContinue
+}
+foreach ($path in $altPaths) {
+    if (Test-Path $path) {
+        Set-ItemProperty -Path $path -Name "WheelScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+        Set-ItemProperty -Path $path -Name "ScrollLines" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+        Set-ItemProperty -Path $path -Name "ScrollPixels" -Value 2 -Type DWord -ErrorAction SilentlyContinue
+        Set-ItemProperty -Path $path -Name "WheelScrollPixels" -Value 2 -Type DWord -ErrorAction SilentlyContinue
+    }
+}
+$mousePath = "HKCU:\Control Panel\Mouse"
+if (Test-Path $mousePath) {
+    Set-ItemProperty -Path $mousePath -Name "WheelScrollPixels" -Value 2 -Type DWord -ErrorAction SilentlyContinue
 }
